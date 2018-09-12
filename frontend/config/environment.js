@@ -3,8 +3,8 @@
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'frontend',
-    environment,
-    rootURL: '/',
+    environment: environment,
+    baseURL: '/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -22,6 +22,7 @@ module.exports = function(environment) {
       // when it is created
     }
   };
+  ENV.apiBaseUrl = 'http://sample-project.local';
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
@@ -46,6 +47,18 @@ module.exports = function(environment) {
   if (environment === 'production') {
     // here you can enable a production-specific feature
   }
+
+  ENV['ember-simple-auth'] = {
+    authorizer: 'authorizer:token'
+  };
+  ENV['ember-simple-auth-token'] = {
+    refreshAccessTokens: true,
+    timeFactor: 1000,
+    refreshLeeway: 300,
+    serverTokenEndpoint: ENV.apiBaseUrl + '/api/auth/login',
+    serverTokenRefreshEndpoint: ENV.apiBaseUrl + '/api/auth/token-refresh',
+    identificationField: 'email'
+  };
 
   return ENV;
 };
